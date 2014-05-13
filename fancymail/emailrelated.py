@@ -4,6 +4,8 @@ from django.conf import settings
 from django.contrib.staticfiles import finders
 from django.core.mail import *
 
+BASE_URL = getattr(settings, 'FANCY_BASE_URL', None)
+
 class EmailMessageRelated(EmailMultiAlternatives):
     """
     Adds attached_related() function to allow adding "related" images to HTML email
@@ -19,6 +21,7 @@ class EmailMessageRelated(EmailMultiAlternatives):
     mixed_subtype = 'related; type="multipart/alternative"'
     
     def __init__(self, *args, **kwargs):
+        self.base_url = kwargs.pop('base_url', BASE_URL)
         super(EmailMessageRelated, self).__init__(*args, **kwargs)
         self.related_ids = {}
 
@@ -28,6 +31,11 @@ class EmailMessageRelated(EmailMultiAlternatives):
     def message(self):
         for filename in self.related_ids.keys():
             self.body = self.body.replace(filename, 'cid:' + self._get_content_id(filename))
+        try:
+            from premailer import transform
+            self.body = transform(self.body, base_url=self.base_url)
+        except ImportError:
+            pass
         return super(EmailMessageRelated, self).message()
         
     def attach_related(self, path, mimetype=None):

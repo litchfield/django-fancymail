@@ -5,7 +5,6 @@ from django.template.loader import render_to_string
 from emailrelated import EmailMessageRelated
 
 ATTACH_RELATED = getattr(settings, 'FANCY_ATTACH_RELATED', [])
-BASE_URL = getattr(settings, 'FANCY_BASE_URL', None)
 
 def send_fancy_mail(subject, template, ctx, recipients=None, 
                     from_email=settings.DEFAULT_FROM_EMAIL, reply_to=None, 
@@ -13,11 +12,6 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
                     fail_silently=False, attachments=[]):
     
     html = render_to_string(template, ctx)
-    try:
-        from premailer import transform
-        html = transform(html, base_url=BASE_URL)
-    except ImportError:
-        pass
 
     recipients = recipients or [ m[1] for m in settings.MANAGERS ]
     

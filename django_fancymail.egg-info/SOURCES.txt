@@ -1,0 +1,7 @@
+django_fancymail.egg-info/PKG-INFO
+django_fancymail.egg-info/SOURCES.txt
+django_fancymail.egg-info/dependency_links.txt
+django_fancymail.egg-info/top_level.txt
+fancymail/__init__.py
+fancymail/emailrelated.py
+fancymail/send.py
