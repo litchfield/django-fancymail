@@ -35,6 +35,6 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
     msg.content_subtype = "html"  
     sent = msg.send(fail_silently=fail_silently)
     if settings.DEBUG:
-        print 'Email: %s %s %s - sent: %s' % (subject, template, recipients, sent)
+        print u'Email: %s %s %s - sent: %s' % (subject, template, recipients, sent)
     return sent
 
