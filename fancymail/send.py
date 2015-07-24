@@ -1,6 +1,4 @@
-from django.core.mail import *
 from django.conf import settings
-from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from emailrelated import EmailMessageRelated
 
@@ -11,6 +9,7 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
                     attach_related=None,
                     fail_silently=False, attachments=[]):
     
+
     html = render_to_string(template, ctx)
 
     recipients = recipients or [ m[1] for m in settings.MANAGERS ]

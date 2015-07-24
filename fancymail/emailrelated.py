@@ -2,7 +2,7 @@ import os
 import uuid
 from django.conf import settings
 from django.contrib.staticfiles import finders
-from django.core.mail import *
+from django.core.mail import EmailMultiAlternatives
 
 BASE_URL = getattr(settings, 'FANCY_BASE_URL', None)
 
