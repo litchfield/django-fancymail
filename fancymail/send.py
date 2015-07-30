@@ -3,14 +3,16 @@ from django.template.loader import render_to_string
 from emailrelated import EmailMessageRelated
 
 ATTACH_RELATED = getattr(settings, 'FANCY_ATTACH_RELATED', [])
+DEFAULT_CTX = getattr(settings, 'FANCY_DEFAULT_CTX', {})
 
 def send_fancy_mail(subject, template, ctx, recipients=None, 
                     from_email=settings.DEFAULT_FROM_EMAIL, reply_to=None, 
-                    attach_related=None,
-                    fail_silently=False, attachments=[]):
+                    attachments=None, attach_related=None,
+                    fail_silently=False):
     
-
-    html = render_to_string(template, ctx)
+    render_ctx = DEFAULT_CTX.copy()
+    render_ctx.update(ctx)
+    html = render_to_string(template, render_ctx)
 
     recipients = recipients or [ m[1] for m in settings.MANAGERS ]
     
@@ -20,8 +22,11 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
     
     msg = EmailMessageRelated(subject, html, from_email, recipients, headers=headers)
 
-    for att in attachments:
-        msg.attach(att)
+    if attachments:
+        for att in attachments:
+            if not isinstance(att, (list, tuple)):
+                att = [att]
+            msg.attach(*att)
         
     attach_related = (attach_related or []) + ATTACH_RELATED
     for fn in attach_related:
