@@ -1,2 +1,2 @@
-from emailrelated import EmailMessageRelated
-from send import send_fancy_mail
+from fancymail.emailrelated import EmailMessageRelated
+from fancymail.send import send_fancy_mail

@@ -1,6 +1,6 @@
 from django.conf import settings
 from django.template.loader import render_to_string
-from emailrelated import EmailMessageRelated
+from fancymail.emailrelated import EmailMessageRelated
 
 ATTACH_RELATED = getattr(settings, 'FANCY_ATTACH_RELATED', [])
 DEFAULT_CTX = getattr(settings, 'FANCY_DEFAULT_CTX', {})
@@ -39,6 +39,6 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
     msg.content_subtype = "html"  
     sent = msg.send(fail_silently=fail_silently)
     if settings.DEBUG:
-        print u'Email: %s %s %s - sent: %s' % (subject, template, recipients, sent)
+        print(u'Email: %s %s %s - sent: %s' % (subject, template, recipients, sent))
     return sent
 
