@@ -8,7 +8,7 @@ DEFAULT_CTX = getattr(settings, 'FANCY_DEFAULT_CTX', {})
 def send_fancy_mail(subject, template, ctx, recipients=None, 
                     from_email=settings.DEFAULT_FROM_EMAIL, reply_to=None, 
                     attachments=None, attach_related=None,
-                    fail_silently=False):
+                    fail_silently=False, connection=None):
     
     render_ctx = DEFAULT_CTX.copy()
     render_ctx.update(ctx)
@@ -20,7 +20,7 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
     if reply_to:
         headers = { 'Reply-To': reply_to }
     
-    msg = EmailMessageRelated(subject, html, from_email, recipients, headers=headers)
+    msg = EmailMessageRelated(subject, html, from_email, recipients, headers=headers, connection=connection)
 
     if attachments:
         for att in attachments:
