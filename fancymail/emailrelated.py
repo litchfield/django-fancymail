@@ -33,7 +33,7 @@ class EmailMessageRelated(EmailMultiAlternatives):
             self.body = self.body.replace(filename, 'cid:' + self._get_content_id(filename))
         try:
             from premailer import transform
-            self.body = transform(self.body, base_url=self.base_url)
+            self.body = transform(self.body, base_url=self.base_url, disable_validation=True)
         except ImportError:
             pass
         return super(EmailMessageRelated, self).message()
