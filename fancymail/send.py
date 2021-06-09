@@ -5,7 +5,7 @@ from fancymail.emailrelated import EmailMessageRelated
 ATTACH_RELATED = getattr(settings, 'FANCY_ATTACH_RELATED', [])
 DEFAULT_CTX = getattr(settings, 'FANCY_DEFAULT_CTX', {})
 
-def send_fancy_mail(subject, template, ctx, recipients=None, 
+def send_fancy_mail(subject, template, ctx, recipients=None, cc=None,
                     from_email=settings.DEFAULT_FROM_EMAIL, reply_to=None, 
                     attachments=None, attach_related=None,
                     fail_silently=False, connection=None):
@@ -20,7 +20,7 @@ def send_fancy_mail(subject, template, ctx, recipients=None,
     if reply_to:
         headers = { 'Reply-To': reply_to }
     
-    msg = EmailMessageRelated(subject, html, from_email, recipients, headers=headers, connection=connection)
+    msg = EmailMessageRelated(subject, html, from_email, recipients, cc=cc, headers=headers, connection=connection)
 
     if attachments:
         for att in attachments:
